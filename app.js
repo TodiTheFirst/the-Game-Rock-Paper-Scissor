@@ -10,7 +10,7 @@ const Result_C_Win = 'PC_WON';
 
 let gameIsRunning = false;
 
-const getPlayerChoise = function() {
+const getPlayerChoise = () => {
    const selection = prompt(`${ROCK}, ${PAPER} or ${SCISSORS}?`, '').toUpperCase();
    if (
     selection !== ROCK  &&
@@ -18,7 +18,7 @@ const getPlayerChoise = function() {
     selection !== SCISSORS
     ) {
         alert(`Invalid choise!  I chose ${DefultChoiseOfUser} for you!`)
-        return DefultChoiseOfUser;
+        return;
     }
     return selection;
 };
@@ -44,28 +44,50 @@ const getComputerChoise = function() {
 // console.dir(startTheGame);         //функции это обьекты
 
 // startGameBtn.addEventListener('click', leeeGo);
-const getWinner = function (cChoise, pChoise ){
-    if (cChoise === pChoise) {
-        return Result_Draw;
-    } else if (cChoise === ROCK && pChoise === PAPER || 
-               cChoise == PAPER && pChoise === SCISSORS  ||
-               cChoise === SCISSORS && pChoise === ROCK
-    ){
-     return Result_P_Win;
-    } else {
-        return Result_C_Win;
-    }
-    
-}
 
-startGameBtn.addEventListener('click', function () {              //пример работы функции анонима 
+const getWinner = (cChoise, pChoise = DefultChoiseOfUser) =>                   // функци стрела или arrow function 
+    cChoise === pChoise 
+    ? Result_Draw: 
+    (cChoise === ROCK && pChoise === PAPER) || 
+    (cChoise == PAPER && pChoise === SCISSORS)  ||
+    (cChoise === SCISSORS && pChoise === ROCK) 
+    ? Result_P_Win :
+      Result_C_Win ;
+
+    // if (cChoise === pChoise) {
+    //     return Result_Draw;
+    // } else if (cChoise === ROCK && pChoise === PAPER || 
+    //            cChoise == PAPER && pChoise === SCISSORS  ||
+    //            cChoise === SCISSORS && pChoise === ROCK
+    // ){
+    //  return Result_P_Win;
+    // } else {
+    //     return Result_C_Win;
+    // }
+
+
+startGameBtn.addEventListener('click',  () => {              //пример работы функции анонима 
     if (gameIsRunning){
         return;
     }
     gameIsRunning = true;
-    console.log('Game is strarting...');
+    alert('Game is strarting...');
     const playerSelection = getPlayerChoise();
     const computerChoise = getComputerChoise();
-    const winner = getWinner (computerChoise,playerSelection);
-    console.log (winner);
+    let winner;
+    if (playerSelection) {
+         winner = getWinner (computerChoise,playerSelection);
+    } else {
+        winner = getWinner (computerChoise);
+    }
+    let message = `You picked ${playerSelection || DefultChoiseOfUser}, computer picked ${computerChoise} thefore your `;
+    if (winner === Result_Draw) {
+        message = message + 'had a draw';
+    } else if (winner === Result_P_Win) {
+        message = message + 'won !';
+    } else {
+        message = message + 'lost :('
+    }
+    alert(message);
+    gameIsRunning = false;
 });
