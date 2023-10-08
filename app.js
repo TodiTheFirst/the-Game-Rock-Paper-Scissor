@@ -67,7 +67,7 @@ const getWinner = (cChoise, pChoise = DefultChoiseOfUser) =>                   /
 
 
 startGameBtn.addEventListener('click',  () => {              //пример работы функции анонима 
-    if (gameIsRunning){
+    if (gameIsRunning) {
         return;
     }
     gameIsRunning = true;
